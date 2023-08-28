@@ -1,25 +1,13 @@
 <script setup>
-  import {ref} from 'vue'
-  const counter = ref(0)
 
-  const increase = () => {
-    counter.value++
-  }
-
-  const decrease = () => {
-    counter.value--
-  }
+import ButtonDelete from '@/components/ButtonDelete.vue'
+import CarList from '@/components/CarList.vue';
 
 </script>
 
 <template>
-  <div class="test">
-    {{ counter }}
-    <button @click="increase">Увеличить</button>
-    <button @click="decrease">Уменьшить</button>
-  </div>
+  <ButtonDelete />
+  <CarList />
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
