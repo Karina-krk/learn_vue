@@ -14,8 +14,8 @@
 <template>
     <div class="buttons">
         {{ counter }}
-        <button class="increase" @click="increase">Увеличить</button>
         <button class="decrease" @click="decrease">Уменьшить</button>
+        <button class="increase" @click="increase">Увеличить</button>
     </div>
 </template>
 
@@ -31,7 +31,7 @@
     }
   
     .increase {
-        background-color: #4caf50;
+        background-color: #9fe6a1;
         color: white;
     }
 
@@ -41,9 +41,9 @@
     
   
       .decrease {
-        background-color: #f44336;
+        background-color: #e48f89;
         color: white;
-        margin-left: 10px;
+        margin-right: 10px;
       }
       
       .decrease:hover {
