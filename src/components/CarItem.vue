@@ -1,56 +1,66 @@
 <script setup>
-    const props = defineProps({
+import{defineProps, computed} from 'vue'
+import Card from 'primevue/card'
+import Chip from 'primevue/chip'
+
+   const props = defineProps({
         car: {
-            type: Object,
-            required: true,
+          type: Object,
+          required: true,
         },
     })
+
+    const carRemake = computed(() => { //позволяет менять объект
+      return{
+        ...props.car,
+        price: props.car.price + ' $',
+        kpd: carRemake.price/carRemake.volume,
+      }
+    })
+
+    function changeColor(color) { 
+      // crappy color change 
+      const crappyColors = ['#FF0000', '#00FF00', '#0000FF'] 
+      if(crappyColors.includes(color)){ 
+        return true 
+      } 
+      return false 
+    } 
 </script>
 
-<template>
-    <div class="car">
-      <img :src="car.image" alt="car" />
-      <h2>{{ car.brand }}</h2>
-      <p>Цена: {{ car.price }}</p>
-      <p>Год выпуска: {{ car.year }}</p>
-      <p>Объем двигателя: {{ car.volume }}</p>
-      <p>Цвет: {{ car.color }}</p>
-    </div>
+
+  <template>
+    <Card>
+      <template #header>
+        <img :src="carRemake.image" alt="car" class="car-image" />
+      </template>
+      <template #title> {{ carRemake.brand }} </template>
+      <template #content>
+        <p>Цена: {{ carRemake.price }}</p>
+        <p>Год выпуска: {{ carRemake.year }}</p>
+        <p>Объем двигателя: {{ carRemake.volume }}</p>
+        <p :style="`color: ${carRemake.color}`">Цвет: {{ carRemake.color }}</p>
+      </template>
+      <template #footer>
+        <div class="chipes">
+          <Chip v-if="Number(carRemake.price.slice(0, -1)) > 1000000" label="Дорогой" icon="pi pi-dollar"></Chip>
+          <Chip v-if="Number(carRemake.price.year) < 1960" label="Cтарый" icon="pi pi-stop-circle"></Chip>
+          <Chip v-if="changeColor(carRemake.color)" label="Конченный цвет" icon="pi pi-eye-slash"></Chip> 
+        </div>
+      </template>
+    </Card>
   </template>
 
-<style scoped>
-  .car {
-    background-color: rgb(240, 222, 220);
-    width: 200px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 16px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
 
-  }
+<style >
+body {
+  text-align: center;
+}
 
-  .car:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
+.chipes span{
+  padding: 5px;
+  color: red;
+}
 
-  .car img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 4px;
-    margin-bottom: 12px;
-  }
 
-  .car h2 {
-    margin: 0;
-    font-size: 20px;
-    color: #181818;
-  }
-
-  .characteristic {
-    margin: 8px 0;
-    font-size: 14px;
-    color: #666;
-  }
 </style>

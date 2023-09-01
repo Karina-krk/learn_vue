@@ -4,7 +4,7 @@ import CarItem from '@/components/CarItem.vue';
     const carsArray = [
   {
     brand: "BMW",
-    price: "2000000",
+    price: "20000000",
     year: 1994,
     volume: 2.4,
     color: "#FF0000",
