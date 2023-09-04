@@ -39,6 +39,7 @@ import Chip from 'primevue/chip'
         <p>Цена: {{ carRemake.price }}</p>
         <p>Год выпуска: {{ carRemake.year }}</p>
         <p>Объем двигателя: {{ carRemake.volume }}</p>
+        <!-- <p>Оценка пользователей: {{ carRemake.rate }}</p> -->
         <p :style="`color: ${carRemake.color}`">Цвет: {{ carRemake.color }}</p>
       </template>
       <template #footer>
@@ -62,5 +63,9 @@ body {
   color: red;
 }
 
+.car-image {
+  width: 220px;
+  height: 150px;
+}
 
 </style>

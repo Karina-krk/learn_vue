@@ -1,16 +1,13 @@
 <script setup>
 import CarItem from '@/components/CarItem.vue';
-
-    const carsArray = [
-  {
-    brand: "BMW",
-    price: "20000000",
-    year: 1994,
-    volume: 2.4,
-    color: "#FF0000",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFN0lN7T1WyAETO84V2umxeofkkkl6684bmI01rC_I&s"
-  },
-]
+import {defineProps} from 'vue'
+ 
+  defineProps ({
+    cars: {
+      type: Array,
+      required: true,
+    },
+  })
 </script>
 
 <template>
@@ -18,7 +15,7 @@ import CarItem from '@/components/CarItem.vue';
     <header>Cars.com</header>
     <nav>Contact us</nav>
     <main>
-      <section class="cars" v-for="car in carsArray" :key="car">
+      <section class="cars" v-for="car in cars" :key="car">
         <CarItem :car="car" />
     </section>
     </main>
@@ -39,7 +36,7 @@ import CarItem from '@/components/CarItem.vue';
   header {
     background-color: #635958;
     color: white;
-    height: 40px;
+    height: 60px;
     padding: 10px 0;
     font-size: 50px;
   }
