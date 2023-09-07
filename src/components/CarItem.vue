@@ -64,7 +64,7 @@ body {
 }
 
 .car-image {
-  width: 220px;
+  width: 250px;
   height: 150px;
 }
 

@@ -1,14 +1,28 @@
 <template>
-  <DataTable :value="cars">
-    <Column v-for="column in carColumns" :key="column.field" :field="column.field" :header="column.header">
-      <template #body="{ data }">
-        <template v-if="column.field === 'criticScore'">
-          <Dropdown :modelValue="data.criticalNumber" :options="numberMarks" optionLabel="mark" optionValue="mark" class="dropdown" @change="setCriticScore(data.criticalNumber, $event)" />
-        </template>
-        <template v-else>{{ data[column.field] }} </template>
-      </template>
-    </Column>
-  </DataTable>
+    <div class="page-container">
+      <div class="card flex justify-content-center">
+        <Sidebar v-model:visible="visible" class="side-bar">
+          <h2>Sidebar</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          <input type="text" placeholder="text">
+          <input type="number" placeholder="number">
+          <input type="color" placeholder="color
+          ">
+        </Sidebar>
+        <Button icon="pi pi-arrow-right" @click="visible = true" class="side-bar">SideBar</Button>
+      </div>
+      <DataTable :value="cars">
+        <Column v-for="column in carColumns" :key="column.field" :field="column.field" :header="column.header">
+          <template #body="{ data }">
+            <template v-if="column.field === 'criticScore'">
+              <Dropdown :modelValue="data.criticalNumber" :options="numberMarks" optionLabel="mark" optionValue="mark" class="dropdown" @change="setCriticScore(data.criticalNumber, $event)" />
+            </template>
+            <template v-else>{{ data[column.field] }} </template>
+          </template>
+        </Column>
+      </DataTable>
+    </div>
+  
 </template>
 
 <script setup>
@@ -16,6 +30,11 @@ import { defineProps, ref, computed, watch } from 'vue'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import Dropdown from 'primevue/dropdown'
+import Sidebar from 'primevue/sidebar';
+
+const visible = ref(false);
+console.log(visible);
+
 
 const props = defineProps({
   cars: {
@@ -98,4 +117,18 @@ const numberMarks = [
 .dropdown {
   width: 100%;
 }
+.input-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-container input {
+  margin-bottom: 10px;
+}
+
+.side-bar {
+  width: 65px; 
+  height: 30px; 
+}
+
 </style>
