@@ -4,8 +4,6 @@ import ButtonDelete from '@/components/ButtonDelete.vue'
 import CarList from '@/components/CarList.vue';
 import CarTable from './components/CarTable.vue';
 import Navbar from './components/layouts/Navbar.vue';
-import Sidebar from 'primevue/sidebar';
-
 
   const cars = [
   {
@@ -20,7 +18,7 @@ import Sidebar from 'primevue/sidebar';
   {
     brand: "Cadillac",
     price: "20000000",
-    year: 2023,
+    year: 2003,
     volume: 6.2,
     color: "#000000",
     image: "https://cdn.motor1.com/images/mgl/lNnnl/s1/4x3/cadillac-escalade-sport-edition.webp",
@@ -38,7 +36,7 @@ import Sidebar from 'primevue/sidebar';
   {
     brand: "Lexus",
     price: "10000000",
-    year: 2023,
+    year: 2020,
     volume: 6.0,
     color: "#272A31",
     image: "https://images.drive.ru/i/0/5f882a61ec05c4fe2d00002f.jpg",
@@ -47,7 +45,7 @@ import Sidebar from 'primevue/sidebar';
   {
     brand: "Toyota",
     price: "10000000",
-    year: 2023,
+    year: 1999,
     volume: 5.4,
     color: "#000000",
     image: "https://toyota.com.ua/uploads/fastUpload/toyota-hybrid-istoriya-rozvitku-ta-cikavi-fakti-1-1600x900tcm-3046-1766941.jpg.webp",
@@ -58,7 +56,6 @@ import Sidebar from 'primevue/sidebar';
 </script>
 
 <template> 
-  <Sidebar /> 
   <Navbar />
   <ButtonDelete />
   <CarList :cars="cars" />
