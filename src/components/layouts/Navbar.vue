@@ -1,23 +1,17 @@
 <template>
   <button type="button" class="p-link p-ml-auto" @click="googleRegister">
-    <i class="pi pi-user"></i>
+    <i class="pi pi-user" style="font-size: 20px;"> Зарегестрироваться или Войти   .</i>
   </button>
   <button type="button" class="p-link p-ml-auto" @click="createAuto">
-    <i class="pi pi-plus"></i>
+    <i class="pi pi-plus" style="font-size: 20px;"> Добавить автомобиль </i>
   </button>
 </template>
 
 <script setup>
 import Button from 'primevue/button'
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
-import { onMounted } from 'vue'
-import { useAuto } from '@/composable/useAuto'
 
-const { auto, createAuto } = useAuto()
 
-onMounted(async () => {
-  await createAuto()
-})
 
 const googleRegister = () => {
   const auth = getAuth()
@@ -35,3 +29,21 @@ const googleRegister = () => {
     })
 }
 </script>
+
+<style scoped>
+.button-container {
+  display: flex;
+  gap: 10px;
+}
+
+.add-car-button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 14px;
+  text-decoration: underline; 
+}
+</style>
