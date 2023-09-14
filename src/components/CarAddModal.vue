@@ -1,8 +1,8 @@
 <template>
-    
-    <Button icon="pi pi-plus" @click="toggleVisible" />
 
+    <Button icon="pi pi-plus" @click="toggleVisible" />
     <Dialog v-model:visible="visible" modal header="Выставить автомобиль" :style="{width: '50vw'}">
+      
         <template #default>
             <div class="p-fluid">
               <div class="p-field">
@@ -55,6 +55,7 @@
                 </div>
             </div>
           </template>
+            
       
         <template #footer>
             <Button label="Сбросить" icon="pi pi-times" @click="clearAuto" text />

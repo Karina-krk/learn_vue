@@ -1,6 +1,8 @@
 <script setup>
 import CarItem from '@/components/CarItem.vue';
 import {defineProps} from 'vue'
+import Menubar from 'primevue/menubar';
+
  
   defineProps ({
     cars: {
@@ -8,54 +10,152 @@ import {defineProps} from 'vue'
       required: true,
     },
   })
+
+import { ref } from "vue";
+
+const items = ref([
+    {
+        label: 'File',
+        icon: 'pi pi-fw pi-file',
+        items: [
+            {
+                label: 'New',
+                icon: 'pi pi-fw pi-plus',
+                items: [
+                    {
+                        label: 'Bookmark',
+                        icon: 'pi pi-fw pi-bookmark'
+                    },
+                    {
+                        label: 'Video',
+                        icon: 'pi pi-fw pi-video'
+                    }
+                ]
+            },
+            {
+                label: 'Delete',
+                icon: 'pi pi-fw pi-trash'
+            },
+            {
+                separator: true
+            },
+            {
+                label: 'Export',
+                icon: 'pi pi-fw pi-external-link'
+            }
+        ]
+    },
+    {
+        label: 'Edit',
+        icon: 'pi pi-fw pi-pencil',
+        items: [
+            {
+                label: 'Left',
+                icon: 'pi pi-fw pi-align-left'
+            },
+            {
+                label: 'Right',
+                icon: 'pi pi-fw pi-align-right'
+            },
+            {
+                label: 'Center',
+                icon: 'pi pi-fw pi-align-center'
+            },
+            {
+                label: 'Justify',
+                icon: 'pi pi-fw pi-align-justify'
+            }
+        ]
+    },
+    {
+        label: 'Users',
+        icon: 'pi pi-fw pi-user',
+        items: [
+            {
+                label: 'New',
+                icon: 'pi pi-fw pi-user-plus'
+            },
+            {
+                label: 'Delete',
+                icon: 'pi pi-fw pi-user-minus'
+            },
+            {
+                label: 'Search',
+                icon: 'pi pi-fw pi-users',
+                items: [
+                    {
+                        label: 'Filter',
+                        icon: 'pi pi-fw pi-filter',
+                        items: [
+                            {
+                                label: 'Print',
+                                icon: 'pi pi-fw pi-print'
+                            }
+                        ]
+                    },
+                    {
+                        icon: 'pi pi-fw pi-bars',
+                        label: 'List'
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        label: 'Events',
+        icon: 'pi pi-fw pi-calendar',
+        items: [
+            {
+                label: 'Edit',
+                icon: 'pi pi-fw pi-pencil',
+                items: [
+                    {
+                        label: 'Save',
+                        icon: 'pi pi-fw pi-calendar-plus'
+                    },
+                    {
+                        label: 'Delete',
+                        icon: 'pi pi-fw pi-calendar-minus'
+                    }
+                ]
+            },
+            {
+                label: 'Archieve',
+                icon: 'pi pi-fw pi-calendar-times',
+                items: [
+                    {
+                        label: 'Remove',
+                        icon: 'pi pi-fw pi-calendar-minus'
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        label: 'Quit',
+        icon: 'pi pi-fw pi-power-off'
+    }
+]);
 </script>
 
-<template>
-  <div class="page-container">
-    <header>Cars.com</header>
-    <nav>Contact us</nav>
+
+<template #header>
+  <div class="card relative z-2">
+    <Menubar :model="items" />
+</div>
+    <div class="page-container">
     <main>
       <section class="cars" v-for="car in cars" :key="car">
         <CarItem :car="car" />
-    </section>
+    </section> 
     </main>
-    <footer>About Us</footer>
   </div>
 </template>
 
 <style scoped>
-  .page-container {
-    background-color: #dfdddd;
-    color: #333;
-    min-height: 700px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  header {
-    background-color: #635958;
-    color: white;
-    height: 60px;
-    padding: 10px 0;
-    font-size: 50px;
-  }
-
-  nav {
-    background-color: #e1cdca;
-    color: rgb(92, 92, 92);
-    padding: 10px 0;
-    font-size: large;
-  }
-
-  main {
-    flex-grow: 1; 
-    padding: 20px;
-  }
-
-  footer {
-    background-color: #635958;
-    color: white;
-    padding: 10px 0;
-  }
+.p-menubar {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+}
 </style>
