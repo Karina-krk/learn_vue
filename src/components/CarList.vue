@@ -1,17 +1,18 @@
 <script setup>
 import CarItem from '@/components/CarItem.vue';
-import {defineProps} from 'vue'
 import Menubar from 'primevue/menubar';
+import { useAuto } from '../composable/useAuto';
+import { onMounted } from 'vue';
+import { ref } from "vue";
+
+const { autoListRemake, getAutoList} = useAuto()
+
+onMounted(async () =>{
+await getAutoList()
+})
 
  
-  defineProps ({
-    cars: {
-      type: Array,
-      required: true,
-    },
-  })
 
-import { ref } from "vue";
 
 const items = ref([
     {
@@ -145,8 +146,8 @@ const items = ref([
 </div>
     <div class="page-container">
     <main>
-      <section class="cars" v-for="car in cars" :key="car">
-        <CarItem :car="car" />
+      <section class="cars" v-for="auto in autoListRemake" :key="auto">
+        <CarItem :auto = 'auto'/>
     </section> 
     </main>
   </div>
