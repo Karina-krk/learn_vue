@@ -1,5 +1,5 @@
 <template>
-  <Button icon="pi pi-plus" @click="toggleVisible" />
+  <Button icon="pi pi-car" @click="toggleVisible" />
 
   <Dialog v-model:visible="visible" modal header="Выставить автомобиль" :style="`width: '50vw'`">
     <template #default>
@@ -59,6 +59,7 @@
       <Button label="Добавить" icon="pi pi-check" @click="addAuto" autofocus />
     </template>
   </Dialog>
+
 </template>
 
 <script setup>
@@ -74,7 +75,7 @@ import Slider from 'primevue/slider'
 import { useAuto } from '@/composable/useAuto'
 import FileUpload from 'primevue/fileupload';
 
-const { newAuto, createAuto, loading, clear } = useAuto()
+const { newAuto, createAuto, loading, clear, } = useAuto()
 
 const visible = ref(false)
 const toggleVisible = () => {

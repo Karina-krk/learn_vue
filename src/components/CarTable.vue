@@ -12,6 +12,11 @@
       </template>
     </Column>
   </DataTable>
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-text">© 2023 ХК</p>
+    </div>
+  </footer>
 </template>
 
 <script setup>
@@ -47,5 +52,21 @@ const carColumns = [
 <style scoped>
 :deep(.p-disabled){
   opacity: 1;
+}
+.footer {
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-text {
+  font-size: 18px;
+  font-weight: bold;
 }
 </style>

@@ -1,4 +1,3 @@
-
 import { collection, getDocs, addDoc } from "firebase/firestore"; 
 import { db } from "@/firebases"; 
 import { getStorage, uploadBytes, getDownloadURL } from "firebase/storage"; 
@@ -71,8 +70,6 @@ export const useAuto = () => {
     }
   }
 
-
-  
 
   function clear() {
     newAuto.value = {

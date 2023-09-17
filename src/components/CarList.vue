@@ -1,9 +1,9 @@
 <script setup>
 import CarItem from '@/components/CarItem.vue';
-import Menubar from 'primevue/menubar';
+
 import { useAuto } from '../composable/useAuto';
 import { onMounted } from 'vue';
-import { ref } from "vue";
+// import { ref } from "vue";
 
 const { autoListRemake, getAutoList} = useAuto()
 
@@ -11,152 +11,51 @@ onMounted(async () =>{
 await getAutoList()
 })
 
- 
-
-
-const items = ref([
-    {
-        label: 'File',
-        icon: 'pi pi-fw pi-file',
-        items: [
-            {
-                label: 'New',
-                icon: 'pi pi-fw pi-plus',
-                items: [
-                    {
-                        label: 'Bookmark',
-                        icon: 'pi pi-fw pi-bookmark'
-                    },
-                    {
-                        label: 'Video',
-                        icon: 'pi pi-fw pi-video'
-                    }
-                ]
-            },
-            {
-                label: 'Delete',
-                icon: 'pi pi-fw pi-trash'
-            },
-            {
-                separator: true
-            },
-            {
-                label: 'Export',
-                icon: 'pi pi-fw pi-external-link'
-            }
-        ]
-    },
-    {
-        label: 'Edit',
-        icon: 'pi pi-fw pi-pencil',
-        items: [
-            {
-                label: 'Left',
-                icon: 'pi pi-fw pi-align-left'
-            },
-            {
-                label: 'Right',
-                icon: 'pi pi-fw pi-align-right'
-            },
-            {
-                label: 'Center',
-                icon: 'pi pi-fw pi-align-center'
-            },
-            {
-                label: 'Justify',
-                icon: 'pi pi-fw pi-align-justify'
-            }
-        ]
-    },
-    {
-        label: 'Users',
-        icon: 'pi pi-fw pi-user',
-        items: [
-            {
-                label: 'New',
-                icon: 'pi pi-fw pi-user-plus'
-            },
-            {
-                label: 'Delete',
-                icon: 'pi pi-fw pi-user-minus'
-            },
-            {
-                label: 'Search',
-                icon: 'pi pi-fw pi-users',
-                items: [
-                    {
-                        label: 'Filter',
-                        icon: 'pi pi-fw pi-filter',
-                        items: [
-                            {
-                                label: 'Print',
-                                icon: 'pi pi-fw pi-print'
-                            }
-                        ]
-                    },
-                    {
-                        icon: 'pi pi-fw pi-bars',
-                        label: 'List'
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        label: 'Events',
-        icon: 'pi pi-fw pi-calendar',
-        items: [
-            {
-                label: 'Edit',
-                icon: 'pi pi-fw pi-pencil',
-                items: [
-                    {
-                        label: 'Save',
-                        icon: 'pi pi-fw pi-calendar-plus'
-                    },
-                    {
-                        label: 'Delete',
-                        icon: 'pi pi-fw pi-calendar-minus'
-                    }
-                ]
-            },
-            {
-                label: 'Archieve',
-                icon: 'pi pi-fw pi-calendar-times',
-                items: [
-                    {
-                        label: 'Remove',
-                        icon: 'pi pi-fw pi-calendar-minus'
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        label: 'Quit',
-        icon: 'pi pi-fw pi-power-off'
-    }
-]);
 </script>
 
 
-<template #header>
-  <div class="card relative z-2">
-    <Menubar :model="items" />
-</div>
+<template>
     <div class="page-container">
-    <main>
-      <section class="cars" v-for="auto in autoListRemake" :key="auto">
-        <CarItem :auto = 'auto'/>
-    </section> 
-    </main>
-  </div>
+      <main>
+        <section class="cars" v-for="auto in autoListRemake" :key="auto">
+          <div class="car-card">
+            <CarItem :auto="auto" />
+          </div>
+        </section>
+      </main>
+    </div>
 </template>
 
 <style scoped>
-.p-menubar {
+.cars {
   display: flex;
-  align-items: center;
-  justify-content: right;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.car-card {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  width: 300px; 
+}
+
+.car-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.car-details {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.car-price {
+  font-size: 16px;
+  font-weight: bold;
+  color: #007bff; 
 }
 </style>
