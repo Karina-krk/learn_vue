@@ -29,7 +29,8 @@ const authButtonText = computed(() => {
 
 const toggleAuth = () => {
   if (isUserAuthenticated.value) {
-    signOut(auth).then(() => {
+    signOut(auth)
+      .then(() => {
         isUserAuthenticated.value = false
         localStorage.removeItem('user')
       })
@@ -39,7 +40,8 @@ const toggleAuth = () => {
   } else {
     const provider = new GoogleAuthProvider()
     
-    signInWithPopup(auth, provider).then((userCredential) => {
+    signInWithPopup(auth, provider)
+      .then((userCredential) => {
         const user = userCredential.user
         localStorage.setItem('user', JSON.stringify(user))
         isUserAuthenticated.value = true

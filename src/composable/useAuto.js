@@ -4,6 +4,8 @@ import { getStorage, uploadBytes, getDownloadURL } from "firebase/storage";
 import { computed, ref } from "vue"; 
 import { createId, formatDate } from "@/services/method.js";
 import 'primeicons/primeicons.css';
+import * as firebase from 'firebase/storage'
+
 
 export const useAuto = () => {
   const newAuto = ref({
@@ -70,7 +72,35 @@ export const useAuto = () => {
     }
   }
 
+  async function uploadImage(file) {
+    console.log(file)
+    const storage = getStorage()
+    console.log(storage)
+    const storageRef = firebase.ref(storage, 'autos/' + file.name)
+    console.log(storageRef)
 
+    uploadBytes(storageRef, file)
+      .then(() => {
+        console.log('Файл успешно загружен!')
+
+        firebase
+        .getDownloadURL(storageRef)
+          .then((downloadURL) => {
+            console.log('Ссылка картинки:', downloadURL);
+            console.log(newAuto.value);
+            newAuto.value.image = downloadURL
+          })
+          .catch((error) => {
+            console.error('Ошибка получения ссылки на загруженный файл:', error)
+          })
+      })
+      .catch((error) => {
+        console.error('Ошибка загрузки файла:', error)
+      })
+  }
+
+
+  
   function clear() {
     newAuto.value = {
       id: '',
@@ -94,6 +124,8 @@ export const useAuto = () => {
     createAuto,
     getAutoList,
     clear,
+    uploadImage,
+    getDownloadURL,
     auto,
     newAuto,
     autoListRemake,

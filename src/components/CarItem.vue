@@ -24,10 +24,13 @@ function changeColor(color) {
 <template>
   <Card>
     <template #header>
-      <img alt="car" class="car-image" />
+      <img alt="no-car" class="car-image" :src="auto.image" />
     </template>
+
     <template #title> {{ auto.brand }} </template>
+
     <template #content>
+
       <p>Цена: {{ auto.price }}</p>
       <p>Год выпуска: {{ auto.year }}</p>
       <p>Объем двигателя: {{ auto.volume }}</p>

@@ -5,7 +5,7 @@
     <template #default>
       <div class="p-fluid">
         <div class="p-field">
-          <label for="brand">Бренд</label>
+          <label for="brand" >Бренд</label>
           <Dropdown id="brand" v-model="newAuto.brand" editable :options="brandLabel" option-label="brand" option-value="brand" placeholder="Бренд" />
         </div>
         <div class="p-field">
@@ -43,13 +43,19 @@
           <label for="travel">Пробег</label>
           <Slider v-model="newAuto.travel" :min="0" :max="500000" :step="1000" />
         </div>
+        <br>
         <div class="p-field">
-          <label for="photo">Пробег</label>        
-          <FileUpload id="photo" v-model="newAuto.photo" name="demo[]" @select="onAdvancedUpload($event)" :multiple="true" accept="image/*" :maxFileSize="1000000">
-            <template #empty>
-                <p>Drag and drop files to here to upload.</p>
-            </template>
-        </FileUpload>
+          <label for="photo">Фото</label>        
+          <form class="input__wrapper" enctype="multipart/form-data">
+            <input id="inputfile" class="input inputfile" name="images" type="file" accept=".jpg, .png" @input="onUpload($event)" />
+            <label for="inputfile" class="inputfile-button">
+              <span class="input__file-icon-wrapper">
+                <img class="input__file-icon" src="@/assets/uploadImage.png" alt="Выбрать файл" width="25" />
+              </span>
+              <span class="input__file-button-text">Машинка</span>
+            </label>
+          </form>
+
         </div>
 
       </div>
@@ -75,7 +81,7 @@ import Slider from 'primevue/slider'
 import { useAuto } from '@/composable/useAuto'
 import FileUpload from 'primevue/fileupload';
 
-const { newAuto, createAuto, loading, clear, } = useAuto()
+const { newAuto, createAuto, loading, clear, uploadImage} = useAuto()
 
 const visible = ref(false)
 const toggleVisible = () => {
@@ -90,6 +96,11 @@ async function addAuto() {
 function clearAuto() {
   clear()
   toggleVisible()
+}
+
+async function onUpload(e) {
+  const image = e.target.files[0]
+  await uploadImage(image)
 }
 
 const gearLabel = ['Механика', 'Автомат', 'Робот', 'Вариатор']
@@ -152,3 +163,10 @@ const carcaseLabel = [
   { carcase: 'Другой' },
 ]
 </script>
+
+<style scoped>
+label{
+  font-size: 20px;
+  font-weight: bold;
+}
+</style>

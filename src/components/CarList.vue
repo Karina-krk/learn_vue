@@ -28,6 +28,7 @@ await getAutoList()
 
 <style scoped>
 .cars {
+  background-color: #ececec;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
