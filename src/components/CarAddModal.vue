@@ -79,7 +79,7 @@ import ColorPicker from 'primevue/colorpicker'
 import RadioButton from 'primevue/radiobutton'
 import Slider from 'primevue/slider'
 import { useAuto } from '@/composable/useAuto'
-import FileUpload from 'primevue/fileupload';
+// import FileUpload from 'primevue/fileupload';
 
 const { newAuto, createAuto, loading, clear, uploadImage} = useAuto()
 

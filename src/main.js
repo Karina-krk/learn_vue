@@ -5,12 +5,13 @@ import { initializeApp } from "firebase/app";
 
 import { createApp } from 'vue'
 import App from './App.vue'
-// import router from './router'
+import router from './router'
 import 'primevue/resources/themes/viva-light/theme.css'
 import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css';
 import 'primevue/chip';
 import ToastService from 'primevue/toastservice'
+
 
 
 
@@ -27,6 +28,7 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 const app = createApp(App)
 
+app.use(router)
 app.use(PrimeVue)
 app.use(ToastService)
 

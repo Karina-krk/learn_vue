@@ -3,26 +3,29 @@ import CarItem from '@/components/CarItem.vue';
 
 import { useAuto } from '../composable/useAuto';
 import { onMounted } from 'vue';
-// import { ref } from "vue";
+import { useRouter, useRoute} from 'vue-router';
 
-const { autoListRemake, getAutoList} = useAuto()
+
+const router = useRouter()
+
+const { autoListRemake, getAutoList } = useAuto()
 
 onMounted(async () =>{
-await getAutoList()
+  await getAutoList()
 })
+
+function goToCarUrl(id) {
+  router.push({name: 'car', params: {id} })
+}
 
 </script>
 
 
 <template>
-    <div class="page-container">
-      <main>
+    <div class="car_info">
         <section class="cars" v-for="auto in autoListRemake" :key="auto">
-          <div class="car-card">
-            <CarItem :auto="auto" />
-          </div>
+            <CarItem :auto="auto" @click="goToCarUrl(auto.id)" />
         </section>
-      </main>
     </div>
 </template>
 
@@ -35,28 +38,4 @@ await getAutoList()
   gap: 20px;
 }
 
-.car-card {
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 15px;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-  width: 300px; 
-}
-
-.car-title {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.car-details {
-  font-size: 14px;
-  margin-bottom: 10px;
-}
-
-.car-price {
-  font-size: 16px;
-  font-weight: bold;
-  color: #007bff; 
-}
 </style>

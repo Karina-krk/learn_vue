@@ -5,10 +5,7 @@
 
 
 <script setup>
-import CarTable from '@components/CarTable.vue'
+import CarTable from '@/components/CarTable.vue'
 </script>
 
 
-
-<style scoped>
-</style>

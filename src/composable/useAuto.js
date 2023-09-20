@@ -23,8 +23,9 @@ export const useAuto = () => {
     saled: false,
   })
 
-  const autoList = ref([])
   const auto = ref(null)
+  
+  const autoList = ref([])
 
   const loading = ref({
     auto: false,
@@ -69,6 +70,22 @@ export const useAuto = () => {
       console.error('Error: ', e)
     } finally {
       loading.value.autoList = false
+    }
+  }
+
+  async function getAuto(id){
+    loading.value.auto = true
+    try{
+      const querySnapshot = await getDocs(collection(db, 'autos'))
+      querySnapshot.forEach((doc) => {
+        if (doc.data().id === id) {
+          auto.value = doc.data()
+        }
+      })
+    } catch (e) {
+      console.log('Error: ', e);
+    } finally {
+      loading.value.auto = false
     }
   }
 
@@ -123,6 +140,7 @@ export const useAuto = () => {
   return {
     createAuto,
     getAutoList,
+    getAuto,
     clear,
     uploadImage,
     getDownloadURL,

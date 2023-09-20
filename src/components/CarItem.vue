@@ -4,6 +4,7 @@ import { defineProps, computed } from 'vue'
 import Card from 'primevue/card'
 import Chip from 'primevue/chip'
 
+
 defineProps({
   auto: {
     type: Object,
@@ -46,7 +47,7 @@ function changeColor(color) {
 </template>
 
 
-<style >
+<style scoped>
 body {
   text-align: center;
 }
