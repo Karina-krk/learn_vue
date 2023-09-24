@@ -5,6 +5,11 @@ const router = createRouter({
   routes: [
     {
       path: '/',
+      name: 'main',
+      component: () => import ('../views/ProfilePage.vue')
+    },
+    {
+      path: '/table',
       name: 'table',
       component: () => import ('../views/TablePage.vue')
     },
@@ -14,20 +19,15 @@ const router = createRouter({
       component: () => import ('../views/CardsPage.vue')
     },
     {
-      path: '/profile',
-      name: 'profile',
-      component: () => import ('../views/ProfilePage.vue')
-    },
-    {
       path: '/car/:id',
       name: 'car',
       component: () => import ('../views/CarIdPage.vue')
     },
-    // {
-    //   path: '/documentation',
-    //   name: 'documentation',
-    //   component: () => import ('../views/CarIdPage.vue')
-    // },
+    {
+      path: '/favourite',
+      name: 'favourite',
+      component: () => import ('../views/CarFavourite.vue')
+    },
     {
       path: '/:pathMatch(.*)*',
       name: 'not-found',

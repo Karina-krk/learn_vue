@@ -14,8 +14,6 @@ import ToastService from 'primevue/toastservice'
 
 
 
-
-
 const firebaseConfig = {
     apiKey: "AIzaSyAlbWmHCAI0cd0AMae3gIhFS7H2Z86cpNQ",
     authDomain: "karina-learn-vue.firebaseapp.com",

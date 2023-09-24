@@ -3,51 +3,117 @@
     <template #header>
       <img alt="no-car" class="car-image" :src="auto.image" />
     </template>
-
-    <template #title> {{ auto.brand }} </template>
-
+    <template #title>{{ auto.brand }}</template>
     <template #content>
       <div class="car-details">
         <p>Цена: {{ auto.price }}</p>
         <p>Год выпуска: {{ auto.year }}</p>
         <p>Объем двигателя: {{ auto.volume }}</p>
-        <p :style="`color: ${auto.color}`">Цвет: {{ auto.color }}</p>
+        <div class="color-container">
+          <p style="margin: 0px; margin-right: 10px">Цвет:</p>
+          <ColorPicker v-model="auto.color" disabled />
+        </div>
       </div>
     </template>
-    
     <template #footer>
-      <div class="chips">
-        <Chip v-if="Number(auto.price.slice(0, -1)) > 1000000" label="Дорогой" icon="pi pi-apple" class="expensive" />
-        <Chip icon="pi pi-history" label="Старый" v-else-if="Number(auto.year) <= 1960" class="old" />
-        <Chip icon="pi pi-briefcase" label="Скучный" v-else class="boring" />
-        <Chip icon="pi pi-eye-slash" label="Конченный цвет" v-if="changeColor(auto.color)" class="ugly" />
-      </div>
+      <Chip v-if="Number(auto.price.slice(0, -1)) > 1000000" label="Дорогой" icon="pi pi-apple" />
+      <Chip v-else-if="Number(auto.year) <= 1960" label="Старый" icon="pi pi-history" />
+      <Chip v-else label="Скучный" icon="pi pi-thumbs-down" />
+      <Chip v-if="changeColor(auto.color)" label="Не эстетичный цвет" icon="pi pi-eye-slash" />
       <div class="like-dislike">
-        <i class="pi pi-thumbs-up" @click="like" :class="{ 'liked': liked }" @input="$emit " />
+        <i class="pi pi-thumbs-up" @click="like" :class="{ 'liked': liked }" @click.stop />
         <span>{{ likes }}</span>
-        <i class="pi pi-thumbs-down" @click="dislike" :class="{ 'disliked': disliked }" />
+        <i class="pi pi-thumbs-down" @click="dislike" :class="{ 'disliked': disliked }" @click.stop />
         <span>{{ dislikes }}</span>
       </div>
+      <i class="pi pi-star" @click="toggleFavorite" :class="{ 'favorited': favorited }" @click.stop></i>
     </template>
   </Card>
 </template>
 
 <script setup>
-import { defineProps, ref } from 'vue'
+import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import { defineProps, defineEmits } from 'vue'
 import Card from 'primevue/card'
 import Chip from 'primevue/chip'
+import ColorPicker from 'primevue/colorpicker'
+import 'primeicons/primeicons.css';
+
+const favorited = ref(false);
+
+const route = useRoute();
+const autoId = route.params.id;
+
+const liked = ref(false);
+const disliked = ref(false);
+const likes = ref(0);
+const dislikes = ref(0);
+
+
+function like() {
+  if (!liked.value) {
+    liked.value = true;
+    dislikes.value = 0;
+    likes.value = 1;
+  } else {
+    liked.value = false;
+    likes.value = 0;
+  }
+  saveLikesToLocalStorage();
+}
+
+function dislike() {
+  if (!disliked.value) {
+    disliked.value = true;
+    likes.value = 0;
+    dislikes.value = 1;
+  } else {
+    disliked.value = false;
+    dislikes.value = 0;
+  }
+
+  saveLikesToLocalStorage();
+}
+
+function saveLikesToLocalStorage() {
+  const likedData = {
+    id: autoId,
+    liked: liked.value,
+    disliked: disliked.value,
+  };
+
+  localStorage.setItem('autoLikes', JSON.stringify(likedData));
+}
+
+onMounted(() => {
+  const likedData = JSON.parse(localStorage.getItem('autoLikes'));
+  if (likedData && likedData.id === autoId) {
+    liked.value = likedData.liked;
+    disliked.value = likedData.disliked;
+
+    if (liked.value) {
+      likes.value = 1;
+    } else if (disliked.value) {
+      dislikes.value = 1;
+    }
+  }
+  const favoriteData = JSON.parse(localStorage.getItem('autoFavorites'));
+  if (favoriteData && favoriteData.id === autoId) {
+    favorited.value = favoriteData.favorited;
+  }
+});
 
 defineProps({
   auto: {
     type: Object,
     required: true,
   },
+  price: {
+    type: String,
+    required: true,
+  },
 })
-
-const liked = ref(false)
-const disliked = ref(false)
-const likes = ref(0)
-const dislikes = ref(0)
 
 function changeColor(color) {
   const crappyColors = ['#FF0000', '#00FF00', '#0000FF']
@@ -57,28 +123,20 @@ function changeColor(color) {
   return false
 }
 
-function like() {
-  if (!liked.value) {
-    liked.value = true
-    dislikes.value = 0
-    likes.value = 1
-  } else {
-    liked.value = false
-    likes.value = 0
-  }
+function toggleFavorite() {
+  favorited.value = !favorited.value;
+  saveFavoritesToLocalStorage();
 }
+function saveFavoritesToLocalStorage() {
+  const favoriteData = {
+    id: autoId,
+    favorited: favorited.value,
+  };
 
-function dislike() {
-  if (!disliked.value) {
-    disliked.value = true
-    likes.value = 0
-    dislikes.value = 1
-  } else {
-    disliked.value = false
-    dislikes.value = 0
-  }
+  localStorage.setItem('autoFavorites', JSON.stringify(favoriteData));
 }
 </script>
+
 
 <style scoped>
 .car-card {
@@ -141,19 +199,17 @@ function dislike() {
 .like-dislike {
   display: flex;
   align-items: center;
-  gap: 4px;
-  margin-top: 8px;
+  gap: 10px;
 }
 
-.like-dislike i {
-  cursor: pointer;
-}
-
-.like-dislike .liked {
+.liked {
   color: green;
 }
 
-.like-dislike .disliked {
-  color: red;
+.disliked {
+  color: red; 
+}
+.favorited {
+  color: yellow; 
 }
 </style>

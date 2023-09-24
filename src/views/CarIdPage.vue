@@ -1,5 +1,4 @@
 <template>
-    <Navbar />
     <div class="car-details-container">
         <div v-if="!auto">
             <Skeleton width="100vw" height="100vw"></Skeleton>
@@ -18,12 +17,6 @@
                 <p class="car-gear">Коробка передач: {{ auto.gear }}</p>
                 <p class="car-travel">Пробег: {{ auto.travel }} км</p>
                 <button class="buy-button" :disabled="auto.saled">Купить</button>
-                <!-- <div class="like-dislike">
-                    <i class="pi pi-thumbs-up" @click="like" :class="{ 'liked': liked }" />
-                    <span>{{ likes }}</span>
-                    <i class="pi pi-thumbs-down" @click="dislike" :class="{ 'disliked': disliked }" />
-                    <span>{{ dislikes }}</span>
-                </div> -->
             </div>
         </div>
     </div>
@@ -34,76 +27,20 @@ import { useAuto } from '../composable/useAuto';
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import Skeleton from 'primevue/skeleton';
-import Navbar from '../components/layouts/Navbar.vue';
-
 
 
 const { auto, getAuto, loading } = useAuto();
 const route = useRoute();
 
-// const liked = ref(false);
-// const disliked = ref(false);
-// const likes = ref(0);
-// const dislikes = ref(0);
 
-
-// function like() {
-//   if (!liked.value) {
-//     liked.value = true;
-//     dislikes.value = 0;
-//     likes.value = 1;
-//   } else {
-//     liked.value = false;
-//     likes.value = 0;
-//   }
-//   saveLikesToLocalStorage();
-// }
-
-// function dislike() {
-//   if (!disliked.value) {
-//     disliked.value = true;
-//     likes.value = 0;
-//     dislikes.value = 1;
-//   } else {
-//     disliked.value = false;
-//     dislikes.value = 0;
-//   }
-//   saveLikesToLocalStorage();
-// }
-
-// function saveLikesToLocalStorage() {
-//   const likedData = {
-//     id: route.params.id,
-//     liked: liked.value,
-//     disliked: disliked.value,
-//   };
-//   localStorage.setItem('likes',  JSON.stringify(likedData))
-// }
 
 onMounted(async () => {
   await getAuto(route.params.id);
-//   const likedData = JSON.parse(localStorage.getItem('autoLikes'));
-//   if (likedData && likedData.id === route.params.id) {
-//     liked.value = likedData.liked;
-//     disliked.value = likedData.disliked;
-
-//     if (liked.value) {
-//       likes.value = 1;
-//     } else if (disliked.value) {
-//       dislikes.value = 1;
-//     }
-//   }
 });
 
 </script>
 
 <style scoped>
-
-.like-dislike {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
 
 .car-details-container {
     background-color: #8a8a8a;
