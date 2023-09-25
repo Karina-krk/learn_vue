@@ -26,7 +26,7 @@ const router = createRouter({
     {
       path: '/favourite',
       name: 'favourite',
-      component: () => import ('../views/CarFavourite.vue')
+      component: () => import ('../views/FavoriteAutos.vue')
     },
     {
       path: '/:pathMatch(.*)*',

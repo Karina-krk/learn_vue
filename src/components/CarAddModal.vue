@@ -86,8 +86,8 @@ function clearAuto() {
   toggleVisible()
 }
 
-async function onUpload(e) {
-  const image = e.target.files[0]
+async function onUpload(event) {
+  const image = event.target.files[0]
   await uploadImage(image)
 }
 

@@ -1,25 +1,29 @@
 <template>
     <div class="favorites">
-      <h1>Favourites cars</h1>
+      <h1>Favourite cars</h1>
       <div v-if="favoriteAutos.length === 0">
-        <p>OOPS your list is empty</p>
+        <h2>OOPS something went wrong</h2>
+        <p>or your list is empty</p>
       </div>
       <div v-else>
         <div v-for="auto in favoriteAutos" :key="auto.id">
-          <AutoCard :auto="auto" />
+          <CarItem v-if="auto.favorited" :auto="auto" @toggleFavorite="toggleFavorite" />
         </div>
       </div>
     </div>
   </template>
   
   <script>
+  import CarItem from '../components/CarItem.vue';
   
   export default {
     name: 'Favorites',
+    components: {
+      CarItem,
+    },
     computed: {
       favoriteAutos() {
-        const favoriteAutos = [];
-        return favoriteAutos;
+        return this.$route.params.favoriteAutos || [];
       },
     },
   };

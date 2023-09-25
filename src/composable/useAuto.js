@@ -3,8 +3,10 @@ import { db } from '@/firebases'
 import { getStorage, uploadBytes, getDownloadURL } from 'firebase/storage'
 import { ref, computed } from 'vue'
 import { createId, formatDate } from '@/services/methods'
+import * as firebase from 'firebase/storage'
 
 export const useAuto = () => {
+
   const newAuto = ref({
     id: createId(),
     brand: '',
@@ -20,15 +22,31 @@ export const useAuto = () => {
     saled: false,
   })
 
-  const auto = ref(null)
 
   const autoList = ref([])
+  const auto = ref(null)
 
   const loading = ref({
     auto: false,
     autoList: false,
     newAuto: false,
   })
+
+  async function getAuto(id) {
+    loading.value.auto = true
+    try {
+      const querySnapshot = await getDocs(collection(db, 'autos'))
+      querySnapshot.forEach((doc) => {
+        if(doc.data().id === id) {
+          auto.value = doc.data()
+        }
+      })
+    } catch(e) {
+      console.error('Error: ', e)
+    } finally {
+      loading.value.auto = false
+    }
+  }
 
   const autoListRemake = computed(() => {
     const _autoListRemake = autoList.value.map((auto) => {
@@ -68,62 +86,6 @@ export const useAuto = () => {
     }
   }
 
-  async function updateAuto() {
-    loading.value.auto = true
-    try {
-      await addDoc(collection(db, 'autos'), auto.value).then(async () => {
-        await getAutoList()
-      })
-    } catch (e) {
-      console.error('Error: ', e)
-    }
-  }
-
-  async function deleteAuto() {
-    loading.value.auto = true
-    auto.value = null
-    try {
-      await addDoc(collection(db, 'autos'), auto.value).then(async () => {
-        await getAutoList()
-      })
-    } catch (e) {
-      console.error('Error: ', e)
-    }
-  }
-
-  async function getAuto(id) {
-    loading.value.auto = true
-    try {
-      const querySnapshot = await getDocs(collection(db, 'autos'))
-      querySnapshot.forEach((doc) => {
-        if (doc.data().id === id) {
-          auto.value = doc.data()
-        }
-      })
-    } catch (e) {
-      console.error('Error: ', e)
-    } finally {
-      loading.value.auto = false
-    }
-  }
-
-  async function uploadImage() {
-    loading.value.newAuto = true
-    try {
-      const storage = getStorage()
-      const storageRef = ref(storage, `images/${newAuto.value.id}`)
-      await uploadBytes(storageRef, newAuto.value.image).then(async () => {
-        await getDownloadURL(storageRef).then((url) => {
-          newAuto.value.image = url
-        })
-      })
-    } catch (e) {
-      console.error('Error: ', e)
-    } finally {
-      loading.value.newAuto = false
-    }
-  }
-
   function clear() {
     newAuto.value = {
       id: '',
@@ -142,18 +104,43 @@ export const useAuto = () => {
     autoList.value = []
     auto.value = null
   }
+  async function uploadImage(file) {
+    console.log(file)
+    const storage = getStorage()
+    console.log(storage)
+    const storageRef = firebase.ref(storage, 'autos/' + file.name)
+    console.log(storageRef)
+
+    uploadBytes(storageRef, file)
+      .then(() => {
+        console.log('Файл успешно загружен!')
+
+        firebase
+        .getDownloadURL(storageRef)
+          .then((downloadURL) => {
+            newAuto.value.image = downloadURL
+          })
+          .catch((error) => {
+            console.error('Ошибка получения ссылки на загруженный файл:', error)
+          })
+      })
+      .catch((error) => {
+        console.error('Ошибка загрузки файла:', error)
+      })
+  }
 
   return {
-    createAuto,
-    updateAuto,
-    deleteAuto,
-    getAutoList,
     getAuto,
+    createAuto,
+    getAutoList,
     clear,
-    uploadImage,
     auto,
     newAuto,
     autoListRemake,
     loading,
+    uploadImage,
   }
+
+
+  
 }
